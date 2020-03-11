@@ -10,6 +10,7 @@ import com.learn.repositories.UserRepository;
 
 @org.springframework.stereotype.Controller
 public class Controller {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -22,8 +23,8 @@ public class Controller {
     }
 
     @PostMapping
-    public String post(@RequestParam String email, @RequestParam String password){
-        User user = new User(email, password);
+    public String post(@RequestParam String name, @RequestParam String password){
+        User user = new User(name, password);
         userRepository.save(user);
 
         return "index";

@@ -12,15 +12,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String email;
+    private String name;
     private String password;
 
-    User(){
+    public User(){
 
     }
 
-    public User(String email, String password) {
-        this.email = email;
+    public User(String name, String password) {
+        this.name = name;
         this.password = password;
     }
 
@@ -33,11 +33,11 @@ public class User {
     }
 
     public String getEmail() {
-        return email;
+        return name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
