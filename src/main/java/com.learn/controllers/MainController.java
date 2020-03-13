@@ -1,8 +1,9 @@
 package com.learn.controllers;
 
 import com.learn.entities.Message;
+import com.learn.entities.User;
 import com.learn.repositories.MessageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,21 +14,29 @@ import java.util.Map;
 @Controller
 public class MainController {
 
-    @Autowired
-    private MessageRepository messageRepository;
+    private final MessageRepository messageRepository;
+
+    public MainController(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
     @GetMapping("/")
+    public String home(){
+        return "home";
+    }
+
+    @GetMapping("/main")
     public String main(Map<String, Object> model) {
         Iterable<Message> messages = messageRepository.findAll();
 
         model.put("messages", messages);
 
-        return "home";
+        return "main";
     }
 
     @PostMapping("/main")
-    public String add(@RequestParam String text, @RequestParam String time, Map<String, Object> model) {
-        Message message = new Message(text, time);
+    public String add(@RequestParam String text, @RequestParam String time, @AuthenticationPrincipal User author, Map<String, Object> model) {
+        Message message = new Message(text, time, author);
 
         messageRepository.save(message);
 

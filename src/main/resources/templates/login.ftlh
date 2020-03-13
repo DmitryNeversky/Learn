@@ -15,6 +15,7 @@
                            <input type="submit" value="Войти"/>
                         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                     </form>
+                    <a href="/registration">Add new user</a>
                 </div>
                 <div class="col-md-6">
                     form for vk/facebook/twitter

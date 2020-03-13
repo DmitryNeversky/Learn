@@ -3,7 +3,6 @@ package com.learn.controllers;
 import com.learn.entities.Role;
 import com.learn.entities.User;
 import com.learn.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +13,11 @@ import java.util.Map;
 @Controller
 public class RegController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public RegController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/registration")
     public String registration() {
@@ -35,6 +37,6 @@ public class RegController {
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
 
-        return "redirect:/login";
+        return "redirect:/main";
     }
 }

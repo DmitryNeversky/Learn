@@ -1,11 +1,15 @@
 package com.learn.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,6 +33,35 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    // Указывает, истек ли срок действия учетной записи пользователя
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    // Указывает, заблокирован ли пользователь или разблокирован
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    // Указывает, истек ли срок действия учетных данных пользователя (пароля)
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    // Online/Offline
+    @Override
+    public boolean isEnabled() {
+        return active;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
     public void setUsername(String username) {
