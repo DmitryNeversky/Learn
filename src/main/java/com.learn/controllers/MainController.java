@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -35,8 +37,10 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String add(@RequestParam String text, @RequestParam String time, @AuthenticationPrincipal User author, Map<String, Object> model) {
-        Message message = new Message(text, time, author);
+    public String add(@RequestParam String text, @AuthenticationPrincipal User author, Map<String, Object> model) {
+        Date date = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
+        Message message = new Message(text, formatForDateNow.format(date), author);
 
         messageRepository.save(message);
 
