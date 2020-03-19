@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:insert="/common/page :: head">
-    <title>Главная</title>
+    <title id="pageTitle">Main</title>
 </head>
 <body>
     <div class="container row clearfix">
@@ -60,7 +60,6 @@
                     <input type="text" name="text" placeholder ="Введите сообщение..." rows="3"/>
                     <input type="submit" value="Отправить" />
                     <button><input type="submit" value="Отправить" /></button>
-                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
                 </form>
 
 <#--                <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;-->
