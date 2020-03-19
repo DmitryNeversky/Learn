@@ -4,11 +4,11 @@ import com.learn.entities.Role;
 import com.learn.entities.User;
 import com.learn.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Collections;
-import java.util.Map;
 
 @Controller
 public class RegController {
@@ -19,18 +19,19 @@ public class RegController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/registration")
-    public String registration() {
-        return "registration";
+    @GetMapping("/reg")
+    public String getRegistration() {
+        return "reg";
     }
 
-    @PostMapping("/registration")
-    public String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepository.findByUsername(user.getUsername());
+    @PostMapping("/reg")
+    public String registration(User user, Model model){
 
-        if (userFromDb != null) {
-            model.put("message", "User exists!");
-            return "registration";
+        User userFromData = userRepository.findByUsername(user.getUsername());
+
+        if(userFromData != null){
+            model.addAttribute("error", "Аккаунт уже создан");
+            return "reg";
         }
 
         user.setActive(true);
