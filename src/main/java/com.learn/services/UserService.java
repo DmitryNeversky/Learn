@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService{
 
     private final UserRepository userRepository;
 
@@ -22,6 +22,8 @@ public class UserService implements UserDetailsService {
 
         if(user == null)
             throw new UsernameNotFoundException("Пользователь не найден.");
+
+        user.setActive(true);
 
         return user;
     }

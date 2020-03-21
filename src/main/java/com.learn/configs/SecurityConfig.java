@@ -1,21 +1,23 @@
 package com.learn.configs;
 
+import com.learn.security.AuthProviderImpl;
+import com.learn.security.CustomLogoutHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import com.learn.services.UserService;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final AuthProviderImpl authProvider;
+    private final CustomLogoutHandler customLogoutHandler;
 
-    public WebSecurityConfig(UserService userService) {
-        this.userService = userService;
+    public SecurityConfig(AuthProviderImpl authProvider, CustomLogoutHandler customLogoutHandler) {
+        this.authProvider = authProvider;
+        this.customLogoutHandler = customLogoutHandler;
     }
 
     @Override
@@ -28,15 +30,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .formLogin()
                     .loginPage("/login")
+                    .loginProcessingUrl("/login")
                     .defaultSuccessUrl("/main")
                 .and()
                     .logout()
-                    .permitAll()
+                    .addLogoutHandler(customLogoutHandler)
                 .logoutSuccessUrl("/home");
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(NoOpPasswordEncoder.getInstance());
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authProvider);
     }
 }

@@ -8,16 +8,16 @@
         <div class="col-md-3 people-list" id="people-list">
             <div class="search">
                 <h2>18-ПО-01</h2>
-                <p>>18< участников</p>
+                <p th:text="${ucount}">~some~</p>
             </div>
             <ul class="list">
-                <a href="#">
+                <a href="#" th:each="user : ${users}">
                     <li class="clearfix">
                         <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
                         <div class="about">
-                            <div class="name">>name<</div>
+                            <div class="name" th:text="${user.username}">~name~</div>
                             <div class="status">
-                                <i class="fa fa-circle online"></i> >online<
+                                <i class="fa fa-circle online">~status~</i>
                             </div>
                         </div>
                     </li>
@@ -38,18 +38,16 @@
 
             <div class="chat-history">
 
-                <ul>
-<!--                    <div th:each="el : ${messages}">-->
+                <ul th:each="message : ${messages}">
 
-<!--                    <li>-->
-<!--                        <div class="message-data">-->
-<!--                            <span th:text="${el.authorName}" class="message-data-name"><i class="fa fa-circle online"></i></span>-->
-<!--                            <span th:text="${el.time}" class="message-data-time" />-->
-<!--                        </div>-->
-<!--                        <div th:text="${el.text}" class="message my-message" />-->
-<!--                    </li>-->
+                    <li>
+                        <div class="message-data">
+                            <span th:text="${message.authorName}" class="message-data-name"><i class="fa fa-circle online"></i>Author</span>
+                            <span th:text="${message.time}" class="message-data-time">Time</span>
+                        </div>
+                        <div th:text="${message.text}" class="message my-message">Text</div>
+                    </li>
 
-<!--                    </div>-->
                 </ul>
 
             </div> <!-- end chat-history -->
@@ -57,13 +55,12 @@
             <div class="chat-message clearfix">
 
                 <form method="post">
-                    <input type="text" name="text" placeholder ="Введите сообщение..." rows="3"/>
-                    <input type="submit" value="Отправить" />
-                    <button><input type="submit" value="Отправить" /></button>
+                    <textarea name="message-to-send" id="message-to-send" placeholder ="Введите сообщение..." rows="3"></textarea>
+                    <button>Отправить</button>
                 </form>
 
-<#--                <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;-->
-<#--                <i class="fa fa-file-image-o"></i>-->
+                <i class="fa fa-file-o"></i>
+                <i class="fa fa-file-image-o"></i>
 
             </div> <!-- end chat-message -->
 
