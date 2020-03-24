@@ -76,8 +76,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return active;
+    public String getActive() {
+        if(active)
+            return "Online";
+        else
+            return "Offline";
     }
 
     public void setActive(boolean active) {

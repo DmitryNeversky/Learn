@@ -4,15 +4,13 @@ import com.learn.entities.Message;
 import com.learn.entities.User;
 import com.learn.repositories.MessageRepository;
 import com.learn.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,17 +26,36 @@ public class MainController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/")
-    public String home(){
-        return "home";
+    @GetMapping("/main")
+    public ModelAndView main(@ModelAttribute Model model) {
+
+        ModelAndView modelAndView = new ModelAndView("main");
+        modelAndView.addAllObjects(model.asMap());
+
+        return modelAndView;
     }
 
-    @GetMapping("/main")
-    public String main(Model model) {
+    @ResponseBody
+    @PostMapping("/main")
+    public ModelAndView add(@RequestParam String letter, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
+
+        Date date = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
+
+        Message message = new Message(letter, formatForDateNow.format(date), author);
+        messageRepository.save(message);
+
+//        Iterable<Message> messages = messageRepository.findAll();
+        model.addAttribute("messages", letter);
+
+        return new ModelAndView("main").addAllObjects(model.asMap());
+    }
+
+    @ModelAttribute
+    public Model getModel(Model model){
 
         // Сообщения
         Iterable<Message> messages = messageRepository.findAll();
-
         model.addAttribute("messages", messages);
 
         // Пользователи
@@ -51,24 +68,13 @@ public class MainController {
         String ucount = String.valueOf(userRepository.count());
         model.addAttribute("ucount", ucount + " участников");
 
-        // Статус
+        // Отдельное имя участника
 
-        return "main";
-    }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String uname = userRepository.findByUsername(authentication.getName()).getUsername();
+        model.addAttribute("uname", uname);
 
-    @PostMapping("/main")
-    public String add(@RequestParam String text, @AuthenticationPrincipal User author, Model model) {
-        Date date = new Date();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
-        Message message = new Message(text, formatForDateNow.format(date), author);
-
-        messageRepository.save(message);
-
-        Iterable<Message> messages = messageRepository.findAll();
-
-        model.addAttribute("messages", messages);
-
-        return "main";
+        return model;
     }
 
 //    @PostMapping("filter")
