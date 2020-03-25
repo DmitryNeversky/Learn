@@ -37,7 +37,7 @@ public class MainController {
 
     @ResponseBody
     @PostMapping("/main")
-    public ModelAndView add(@RequestParam String letter, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
+    public void add(@RequestParam String letter, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
 
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
@@ -46,9 +46,13 @@ public class MainController {
         messageRepository.save(message);
 
 //        Iterable<Message> messages = messageRepository.findAll();
-        model.addAttribute("messages", letter);
+        //model.addAttribute("messages", letter);
+    }
 
-        return new ModelAndView("main").addAllObjects(model.asMap());
+    @GetMapping("/clear")
+    public String clear(){
+        messageRepository.deleteAll();
+        return "redirect:/main";
     }
 
     @ModelAttribute
@@ -76,19 +80,4 @@ public class MainController {
 
         return model;
     }
-
-//    @PostMapping("filter")
-//    public String filter(@RequestParam String filter, Map<String, Object> model) {
-//        Iterable<Message> messages;
-//
-//        if (filter != null && !filter.isEmpty()) {
-//            messages = messageRepository.findByText(filter);
-//        } else {
-//            messages = messageRepository.findAll();
-//        }
-//
-//        model.put("messages", messages);
-//
-//        return "main";
-//    }
 }

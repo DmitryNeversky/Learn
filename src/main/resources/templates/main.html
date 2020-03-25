@@ -38,7 +38,7 @@
 
             <div class="chat-history">
 
-                <ul th:each="message : ${messages}">
+                <ul id="add" th:each="message : ${messages}">
 
                     <li>
                         <div class="message-data">
@@ -55,13 +55,14 @@
             <div class="chat-message clearfix">
 
                 <form id="send-form">
-                    <textarea name="letter" id="msg" placeholder ="Введите сообщение..." rows="3"></textarea>
-                    <button>Отправить</button>
+                    <textarea type="text" name="letter" id="msg" placeholder ="Введите сообщение..." rows="3"></textarea>
+                    <button type="submit">Отправить</button>
                 </form>
 
                 <i class="fa fa-file-o"></i>
                 <i class="fa fa-file-image-o"></i>
 
+                <a href="/clear">Удалить</a>
             </div> <!-- end chat-message -->
 
         </div> <!-- end chat -->

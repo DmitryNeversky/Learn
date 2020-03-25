@@ -20,8 +20,11 @@ public class CustomLogoutHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
-        User user = userRepository.findByUsername(authentication.getName());
-        user.setActive(false);
+        String name = authentication.getName();
+        User user = userRepository.findByUsername(name);
+        if(user == null)
+            return;
+
         userRepository.save(user);
     }
 }
