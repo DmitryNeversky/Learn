@@ -43,10 +43,8 @@ public class MainController {
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
 
         Message message = new Message(letter, formatForDateNow.format(date), author);
-        messageRepository.save(message);
 
-//        Iterable<Message> messages = messageRepository.findAll();
-        //model.addAttribute("messages", letter);
+        messageRepository.save(message);
     }
 
     @GetMapping("/clear")

@@ -1,5 +1,7 @@
 package com.learn.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +11,9 @@ public class Message {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    @Lob
     private String text;
+
     private String time;
 
     @ManyToOne(fetch = FetchType.EAGER)
