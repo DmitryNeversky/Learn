@@ -45,7 +45,8 @@
                             <span th:text="${message.authorName}" class="message-data-name"><i class="fa fa-circle online"></i>Author</span>
                             <span th:text="${message.time}" class="message-data-time">Time</span>
                         </div>
-                        <div th:text="${message.text}" class="message my-message">Text</div>
+                        <div th:text="${message.text}" class="message my-message">Text
+                        </div>
                     </li>
 
                 </ul>
@@ -55,10 +56,10 @@
             <div class="chat-message clearfix">
 
                 <form id="send-form">
-                    <textarea type="text" name="letter" id="msg" placeholder ="Введите сообщение..." rows="3"></textarea>
+                    <textarea type="text" name="letter" id="msg" placeholder ="Введите сообщение..."></textarea>
+                    <input type="file" id="part" name="multipartFile" />
                     <button type="submit">Отправить</button>
                 </form>
-
                 <i class="fa fa-file-o"></i>
                 <i class="fa fa-file-image-o"></i>
 

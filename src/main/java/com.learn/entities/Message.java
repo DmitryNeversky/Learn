@@ -1,7 +1,5 @@
 package com.learn.entities;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +13,10 @@ public class Message {
     private String text;
 
     private String time;
+
+    @Lob
+    @Column(columnDefinition="BLOB")
+    private byte[] image;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -64,5 +66,13 @@ public class Message {
 
     public String getAuthorName(){
         return author != null ? author.getUsername() : "<none>";
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

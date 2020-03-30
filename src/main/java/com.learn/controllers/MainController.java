@@ -10,10 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @Controller
 public class MainController {
@@ -37,12 +40,24 @@ public class MainController {
 
     @ResponseBody
     @PostMapping("/main")
-    public void add(@RequestParam String letter, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
+    public void add(@RequestParam String letter,  @RequestParam MultipartFile multipartFile, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
 
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
 
         Message message = new Message(letter, formatForDateNow.format(date), author);
+
+        if(multipartFile != null) {
+            try {
+                String uID = UUID.randomUUID().toString();
+                multipartFile.transferTo(new File("C://" + uID));
+                System.out.println("загружено");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("null");
+        }
 
         messageRepository.save(message);
     }
@@ -75,6 +90,10 @@ public class MainController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uname = userRepository.findByUsername(authentication.getName()).getUsername();
         model.addAttribute("uname", uname);
+
+        // Файлы
+
+//        model.addAttribute("file", storageService.load(""));
 
         return model;
     }
