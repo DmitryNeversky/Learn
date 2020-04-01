@@ -4,6 +4,7 @@ import com.learn.entities.Message;
 import com.learn.entities.User;
 import com.learn.repositories.MessageRepository;
 import com.learn.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,9 @@ import java.util.UUID;
 
 @Controller
 public class MainController {
+
+    @Value("${upload.path}")
+    private String upPath;
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
@@ -40,7 +44,7 @@ public class MainController {
 
     @ResponseBody
     @PostMapping("/main")
-    public void add(@RequestParam String letter,  @RequestParam MultipartFile multipartFile, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
+    public void add(@RequestParam String letter,  @RequestParam(required = false) MultipartFile multipartFile, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
 
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
@@ -48,15 +52,17 @@ public class MainController {
         Message message = new Message(letter, formatForDateNow.format(date), author);
 
         if(multipartFile != null) {
+            System.out.println("Not NULL");
+
             try {
-                String uID = UUID.randomUUID().toString();
-                multipartFile.transferTo(new File("C://" + uID));
-                System.out.println("загружено");
+                String filePath = UUID.randomUUID().toString() + "." +  multipartFile.getOriginalFilename();
+
+                multipartFile.transferTo(new File(upPath + "/" + filePath));
+
+                message.setFileName(filePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            System.out.println("null");
         }
 
         messageRepository.save(message);
@@ -90,10 +96,6 @@ public class MainController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uname = userRepository.findByUsername(authentication.getName()).getUsername();
         model.addAttribute("uname", uname);
-
-        // Файлы
-
-//        model.addAttribute("file", storageService.load(""));
 
         return model;
     }

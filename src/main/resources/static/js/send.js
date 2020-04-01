@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
         event.preventDefault();
 
         const formData = new FormData();
-        formData.append("letter", $('#msg'));
+        formData.append("letter", $('#msg').val());
         formData.append("multipartFile", $('#part')[0].files[0]);
 
         $.ajax ({
@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
             data: formData,
             dataType: "html",
             processData: false,
-            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            contentType: false,
             success: function() {
                 $(".chat-history").load("main #add");
                 $('#msg').val("");

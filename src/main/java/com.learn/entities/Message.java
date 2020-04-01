@@ -13,10 +13,7 @@ public class Message {
     private String text;
 
     private String time;
-
-    @Lob
-    @Column(columnDefinition="BLOB")
-    private byte[] image;
+    private String fileName;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -68,11 +65,11 @@ public class Message {
         return author != null ? author.getUsername() : "<none>";
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
