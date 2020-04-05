@@ -4,9 +4,14 @@ jQuery(document).ready(function($) {
     $("#send-form").submit(function(event) {
         event.preventDefault();
 
+        let files = document.getElementById('part').files;
+
         const formData = new FormData();
         formData.append("letter", $('#msg').val());
-        formData.append("multipartFile", $('#part')[0].files[0]);
+
+        for(let i = 0; i < files.length; i++) {
+            formData.append('multipartFiles', files[i]);
+        }
 
         $.ajax ({
             url: "/main",
@@ -18,19 +23,18 @@ jQuery(document).ready(function($) {
             success: function() {
                 $(".chat-history").load("main #add");
                 $('#msg').val("");
+                $('#part').val("");
                 scrollToBottom();
             }
         });
 
     });
 
-    // $('.uploadFile').change(function() {
-    //     if ($(this).val() !== '') $(this).prev().text('Выбрано файлов: ' + $(this)[0].files.length);
-    //     else $(this).prev().text('Выберите файлы');
-    // });
+    function showImage(fileName) {
+        console.log(fileName);
+    }
 });
 
 function scrollToBottom() {
-    // $("#chat").scrollTop($("#chat")[0].scrollHeight);
     $('#chat').animate({ scrollTop: $('#chat')[0].scrollHeight }, 400);
 }

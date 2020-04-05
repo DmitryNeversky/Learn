@@ -16,8 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -44,26 +43,31 @@ public class MainController {
 
     @ResponseBody
     @PostMapping("/main")
-    public void add(@RequestParam String letter,  @RequestParam(required = false) MultipartFile multipartFile, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
+    public void add(@RequestParam String letter,  @RequestParam(required = false) List<MultipartFile> multipartFiles, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
 
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
 
         Message message = new Message(letter, formatForDateNow.format(date), author);
 
-        if(multipartFile != null) {
-            System.out.println("Not NULL");
+        List<String> list = new ArrayList<>();
 
+        if(!multipartFiles.isEmpty())
+            System.out.println(multipartFiles.get(0));
+
+        for(MultipartFile pair : multipartFiles) {
             try {
-                String filePath = UUID.randomUUID().toString() + "." +  multipartFile.getOriginalFilename();
+                String fileName = UUID.randomUUID().toString() + "." + pair.getOriginalFilename();
 
-                multipartFile.transferTo(new File(upPath + "/" + filePath));
+                pair.transferTo(new File(upPath + "/" + fileName));
 
-                message.setFileName(filePath);
+                list.add(fileName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        message.setFileNames(list);
 
         messageRepository.save(message);
     }

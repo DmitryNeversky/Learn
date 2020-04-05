@@ -22,10 +22,6 @@ li{
     padding: 0 !important;
 }
 
-.row{
-    margin: 0 !important;
-}
-
 .people-list {
     width: 260px;
     max-height: 625px;
@@ -223,4 +219,10 @@ li{
     border-radius: 25px 0 0 25px;
     background-color: #343a40;
     transition: .5s;
+}
+
+#chat img{
+    width: 20%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px;
 }

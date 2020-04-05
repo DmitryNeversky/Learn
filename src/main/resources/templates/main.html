@@ -11,18 +11,20 @@
                 <p th:text="${ucount}">~some~</p>
             </div>
             <ul class="list">
-                <a href="#" th:each="user : ${users}">
-                    <li class="clearfix">
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
-                        <div class="about">
-                            <div class="name" th:text="${user.username}">~name~</div>
-                            <div class="status">
-                                <span th:if="${user.isEnabled()}"><i class="fa fa-circle online"></i>online</span>
-                                <span th:unless="${user.isEnabled()}"><i class="fa fa-circle offline"></i>offline</span>
+                <div th:each="user : ${users}">
+                    <a th:href="${user.id}">
+                        <li class="clearfix">
+                            <img th:src="${'uploads/' + user.avatarPath}" alt="avatar" />
+                            <div class="about">
+                                <div class="name" th:text="${user.username}">~name~</div>
+                                <div class="status">
+                                    <span th:if="${user.isEnabled()}"><i class="fa fa-circle online"></i>online</span>
+                                    <span th:unless="${user.isEnabled()}"><i class="fa fa-circle offline"></i>offline</span>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                </a>
+                        </li>
+                    </a>
+                </div>
             </ul>
         </div>
 
@@ -45,8 +47,10 @@
                             <span th:text="${message.authorName}" class="message-data-name"><i class="fa fa-circle online"></i>Author</span>
                             <span th:text="${message.time}" class="message-data-time">Time</span>
                         </div>
-                        <div th:text="${message.text}" class="message my-message">Text</div>
-                        <a th:if="${message.fileName != null}" th:href="${'uploads/' + message.fileName}">Тык</a>
+                        <div class="message my-message">
+                            <p th:text="${message.text}">Text</p>
+<!--                            <img th:if="${message.fileName != null}" th:src="${'uploads/' + message.fileName}" />-->
+                        </div>
                     </li>
 
                 </ul>
@@ -56,8 +60,8 @@
             <div class="chat-message clearfix">
 
                 <form id="send-form">
-                    <textarea type="text" name="letter" id="msg" placeholder ="Введите сообщение..."></textarea>
-                    <input type="file" id="part" name="multipartFile" multiple />
+                    <textarea type="text" id="msg" placeholder ="Введите сообщение..."></textarea>
+                    <input type="file" id="part" multiple />
                     <button type="submit">Отправить</button>
                 </form>
                 <i class="fa fa-file-o"></i>

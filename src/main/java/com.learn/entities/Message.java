@@ -1,6 +1,7 @@
 package com.learn.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Message {
@@ -13,7 +14,10 @@ public class Message {
     private String text;
 
     private String time;
-    private String fileName;
+
+    @ElementCollection
+    @Column(name = "file_name")
+    private List<String> fileNames;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -65,11 +69,11 @@ public class Message {
         return author != null ? author.getUsername() : "<none>";
     }
 
-    public String getFileName() {
-        return fileName;
+    public List<String> getFileNames() {
+        return fileNames;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFileNames(List<String> fileNames) {
+        this.fileNames = fileNames;
     }
 }
