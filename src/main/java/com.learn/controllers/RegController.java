@@ -56,7 +56,7 @@ public class RegController {
             }
 
         } else {
-            user.setAvatarPath("default.png");
+            user.setAvatarPath("static/img/default.png");
         }
 
         user.setActive(true);

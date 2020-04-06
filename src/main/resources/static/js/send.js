@@ -4,14 +4,16 @@ jQuery(document).ready(function($) {
     $("#send-form").submit(function(event) {
         event.preventDefault();
 
-        let files = document.getElementById('part').files;
+        let images = document.getElementById('partImages').files;
+        let files = document.getElementById('partFiles').files;
 
         const formData = new FormData();
         formData.append("letter", $('#msg').val());
 
-        for(let i = 0; i < files.length; i++) {
+        for(let i = 0; i < images.length; i++)
+            formData.append('multipartImages', images[i]);
+        for(let i = 0; i < files.length; i++)
             formData.append('multipartFiles', files[i]);
-        }
 
         $.ajax ({
             url: "/main",
@@ -23,7 +25,8 @@ jQuery(document).ready(function($) {
             success: function() {
                 $(".chat-history").load("main #add");
                 $('#msg').val("");
-                $('#part').val("");
+                $('#partImages').val("");
+                $('#partFiles').val("");
                 scrollToBottom();
             }
         });

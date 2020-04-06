@@ -43,31 +43,42 @@ public class MainController {
 
     @ResponseBody
     @PostMapping("/main")
-    public void add(@RequestParam String letter,  @RequestParam(required = false) List<MultipartFile> multipartFiles, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
+    public void add(@RequestParam String letter,  @RequestParam(required = false) List<MultipartFile> multipartImages, @RequestParam(required = false) List<MultipartFile> multipartFiles, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
 
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
 
         Message message = new Message(letter, formatForDateNow.format(date), author);
 
-        List<String> list = new ArrayList<>();
+        List<String> listImages = new ArrayList<>();
+        List<String> listFiles = new ArrayList<>();
 
-        if(!multipartFiles.isEmpty())
-            System.out.println(multipartFiles.get(0));
-
-        for(MultipartFile pair : multipartFiles) {
+        for(MultipartFile pair : multipartImages) {
             try {
                 String fileName = UUID.randomUUID().toString() + "." + pair.getOriginalFilename();
 
-                pair.transferTo(new File(upPath + "/" + fileName));
+                pair.transferTo(new File(upPath + "/images/" + fileName));
 
-                list.add(fileName);
+                listImages.add(fileName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        message.setFileNames(list);
+        for(MultipartFile pair : multipartFiles) {
+            try {
+                String fileName = UUID.randomUUID().toString() + "." + pair.getOriginalFilename();
+
+                pair.transferTo(new File(upPath + "/files/" + fileName));
+
+                listFiles.add(fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        message.setImageNames(listImages);
+        message.setFileNames(listFiles);
 
         messageRepository.save(message);
     }

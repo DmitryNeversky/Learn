@@ -49,7 +49,8 @@
                         </div>
                         <div class="message my-message">
                             <p th:text="${message.text}">Text</p>
-<!--                            <img th:if="${message.fileName != null}" th:src="${'uploads/' + message.fileName}" />-->
+                            <img th:if="${message.imageNames != null}" th:each="file : ${message.imageNames}" th:src="${'uploads/images/' + file}" />
+                            <a th:if="${message.fileNames != null}" th:each="file : ${message.fileNames}" th:href="${'uploads/files/' + file}"><img src="img/doc.png" alt="document"></a>
                         </div>
                     </li>
 
@@ -61,7 +62,8 @@
 
                 <form id="send-form">
                     <textarea type="text" id="msg" placeholder ="Введите сообщение..."></textarea>
-                    <input type="file" id="part" multiple />
+                    <input type="file" id="partImages" accept="image/*" multiple />
+                    <input type="file" id="partFiles" accept="application/vnd.openxmlformats-officedocument.extended-properties+xml" multiple />
                     <button type="submit">Отправить</button>
                 </form>
                 <i class="fa fa-file-o"></i>

@@ -16,7 +16,13 @@ public class Message {
     private String time;
 
     @ElementCollection
+    @Column(name = "image_name")
+    @JoinColumn(name = "message_id")
+    private List<String> imageNames;
+
+    @ElementCollection
     @Column(name = "file_name")
+    @JoinColumn(name = "message_id")
     private List<String> fileNames;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -67,6 +73,14 @@ public class Message {
 
     public String getAuthorName(){
         return author != null ? author.getUsername() : "<none>";
+    }
+
+    public List<String> getImageNames() {
+        return imageNames;
+    }
+
+    public void setImageNames(List<String> imageNames) {
+        this.imageNames = imageNames;
     }
 
     public List<String> getFileNames() {
