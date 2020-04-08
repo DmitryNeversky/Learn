@@ -109,6 +109,9 @@ li{
     overflow-y: scroll;
     height: 24em;
 }
+.chat-history a:hover{
+    text-decoration: none;
+}
 .chat .chat-history .message-data {
     margin-bottom: 15px;
 }
@@ -118,8 +121,8 @@ li{
 }
 .chat .chat-history .message {
     color: white;
-    padding: 18px 20px;
-    line-height: 26px;
+    padding: 0 20px;
+    line-height: 3rem;
     font-size: 16px;
     border-radius: 7px;
     margin-bottom: 30px;
@@ -221,8 +224,25 @@ li{
     transition: .5s;
 }
 
-#chat img{
+.message-data img{
+    width: 5%;
+    border-radius: 50%;
+}
+
+.my-message img{
     width: 20%;
     border-radius: 5px;
-    box-shadow: 0 0 10px;
+}
+
+#send-form label i:hover{
+    color: #75b1e8;
+}
+
+#send-form input{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }

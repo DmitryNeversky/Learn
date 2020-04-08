@@ -14,7 +14,7 @@
                 <div th:each="user : ${users}">
                     <a th:href="${user.id}">
                         <li class="clearfix">
-                            <img th:src="${'uploads/' + user.avatarPath}" alt="avatar" />
+                            <img th:src="${user.avatarPath}" alt="avatar" />
                             <div class="about">
                                 <div class="name" th:text="${user.username}">~name~</div>
                                 <div class="status">
@@ -44,7 +44,10 @@
 
                     <li>
                         <div class="message-data">
-                            <span th:text="${message.authorName}" class="message-data-name"><i class="fa fa-circle online"></i>Author</span>
+                            <a th:href="${message.author.id}">
+                                <img th:src="${message.author.avatarPath}">
+                                <span th:text="${message.authorName}" class="message-data-name"><i class="fa fa-circle online"></i>Author</span>
+                            </a>
                             <span th:text="${message.time}" class="message-data-time">Time</span>
                         </div>
                         <div class="message my-message">
@@ -62,12 +65,12 @@
 
                 <form id="send-form">
                     <textarea type="text" id="msg" placeholder ="Введите сообщение..."></textarea>
+                    <label for="partImages"><i class="fa fa-file-image-o"></i></label>
                     <input type="file" id="partImages" accept="image/*" multiple />
-                    <input type="file" id="partFiles" accept="application/vnd.openxmlformats-officedocument.extended-properties+xml" multiple />
+                    <label for="partFiles"><i class="fa fa-file-o"></i></label>
+                    <input type="file" id="partFiles" accept="application/applefile" multiple />
                     <button type="submit">Отправить</button>
                 </form>
-                <i class="fa fa-file-o"></i>
-                <i class="fa fa-file-image-o"></i>
 
                 <a href="/clear">Удалить</a>
             </div> <!-- end chat-message -->

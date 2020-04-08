@@ -55,7 +55,7 @@ public class MainController {
 
         for(MultipartFile pair : multipartImages) {
             try {
-                String fileName = UUID.randomUUID().toString() + "." + pair.getOriginalFilename();
+                String fileName = pair.getOriginalFilename();
 
                 pair.transferTo(new File(upPath + "/images/" + fileName));
 
@@ -67,7 +67,7 @@ public class MainController {
 
         for(MultipartFile pair : multipartFiles) {
             try {
-                String fileName = UUID.randomUUID().toString() + "." + pair.getOriginalFilename();
+                String fileName = pair.getOriginalFilename();
 
                 pair.transferTo(new File(upPath + "/files/" + fileName));
 
