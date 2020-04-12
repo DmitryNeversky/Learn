@@ -5,6 +5,8 @@ import com.learn.entities.User;
 import com.learn.repositories.MessageRepository;
 import com.learn.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +41,12 @@ public class MainController {
         modelAndView.addAllObjects(model.asMap());
 
         return modelAndView;
+    }
+
+    @MessageMapping("/chat")
+    @SendTo("/topic/greetings")
+    public boolean getMessage(){
+        return true;
     }
 
     @ResponseBody
