@@ -59,7 +59,7 @@ public class RegController {
             user.setAvatarPath("static/img/default.png");
         }
 
-        user.setActive(true);
+        user.setStatus(true);
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
 

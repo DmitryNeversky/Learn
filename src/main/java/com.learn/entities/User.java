@@ -17,7 +17,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String avatarPath;
-    private boolean active;
+    private boolean status;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -57,7 +57,7 @@ public class User implements UserDetails {
     // Online/Offline
     @Override
     public boolean isEnabled() {
-        return active;
+        return status;
     }
 
     @Override
@@ -85,15 +85,15 @@ public class User implements UserDetails {
         this.avatarPath = avatarPath;
     }
 
-    public String getActive() {
-        if(active)
+    public String getStatus() {
+        if(status)
             return "Online";
         else
             return "Offline";
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public Set<Role> getRoles() {
@@ -110,7 +110,7 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", active=" + active +
+                ", status=" + status +
                 ", roles=" + roles +
                 '}';
     }

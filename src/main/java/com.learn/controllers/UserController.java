@@ -20,13 +20,10 @@ public class UserController {
     @MessageMapping("/status")
     @SendTo("/receive/status")
     public boolean setStatus(String status, Principal principal){
-        System.out.println(status);
         User user = userRepository.findByUsername(principal.getName());
 
-        if (status.equals("true")) user.setActive(true);
-        else user.setActive(false);
-
-        System.out.println(user.toString());
+        if (status.equals("true")) user.setStatus(true);
+        else user.setStatus(false);
 
         userRepository.save(user);
 

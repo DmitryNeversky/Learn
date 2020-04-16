@@ -17,6 +17,5 @@ public class CustomSessionEventListener extends HttpSessionEventPublisher {
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
         super.sessionDestroyed(event);
-        System.out.println("Session vas been destroyed!");
     }
 }
