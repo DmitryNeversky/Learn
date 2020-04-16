@@ -25,6 +25,7 @@ public class CustomLogoutHandler implements LogoutHandler {
         if(user == null)
             return;
 
+//        user.setActive(false);
         userRepository.save(user);
     }
 }

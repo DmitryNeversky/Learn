@@ -3,15 +3,15 @@
 <head th:insert="/common/page :: head">
     <title id="pageTitle">Main</title>
 </head>
-<body>
+<body onbeforeunload="return disconnect()">
     <div class="container row clearfix">
         <div class="col-md-3 people-list" id="people-list">
             <div class="search">
                 <h2>18-ПО-01</h2>
                 <p th:text="${ucount}">~some~</p>
             </div>
-            <ul class="list">
-                <div th:each="user : ${users}">
+            <ul class="user-list">
+                <div th:each="user : ${users}" id="userTable">
                     <a th:href="${user.id}">
                         <li class="clearfix">
                             <img th:src="${user.avatarPath}" alt="avatar" />

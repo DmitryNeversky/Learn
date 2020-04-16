@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -36,7 +39,6 @@ public class MainController {
 
     @GetMapping("/main")
     public ModelAndView main(@ModelAttribute Model model) {
-
         ModelAndView modelAndView = new ModelAndView("main");
         modelAndView.addAllObjects(model.asMap());
 
@@ -44,14 +46,14 @@ public class MainController {
     }
 
     @MessageMapping("/chat")
-    @SendTo("/topic/greetings")
+    @SendTo("/receive/chat")
     public boolean getMessage(){
         return true;
     }
 
     @ResponseBody
     @PostMapping("/main")
-    public void add(@RequestParam String letter,  @RequestParam(required = false) List<MultipartFile> multipartImages, @RequestParam(required = false) List<MultipartFile> multipartFiles, @AuthenticationPrincipal User author, @ModelAttribute Model model) {
+    public void add(@RequestParam String letter,  @RequestParam(required = false) List<MultipartFile> multipartImages, @RequestParam(required = false) List<MultipartFile> multipartFiles, @AuthenticationPrincipal User author) {
 
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");

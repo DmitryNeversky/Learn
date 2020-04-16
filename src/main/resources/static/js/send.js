@@ -25,12 +25,10 @@ jQuery(document).ready(function($) {
             processData: false,
             contentType: false,
             success: function() {
-                sendMessage();
-                $(".chat-history").load("main #add");
+                send("/app/chat");
                 $('#msg').val("");
                 $('#partImages').val("");
                 $('#partFiles').val("");
-                scrollToBottom();
             }
         });
 
@@ -47,27 +45,32 @@ function scrollToBottom() {
 
 // WebSocket
 
-let stompClient = null;
+let socket = new SockJS('/message-socket');
+let stompClient = Stomp.over(socket);
 
 function connect() {
-    const socket = new SockJS('/message-socket');
-    stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function () {
+        send("/app/status", true);
+
+        stompClient.subscribe('/receive/chat', function () {
             showMessage();
             scrollToBottom();
+        });
+
+        stompClient.subscribe('/receive/status', function () {
+            $(".user-list").load("main #userTable");
         });
     });
 }
 
 function disconnect() {
     if (stompClient !== null) {
+        send("/app/status", false);
         stompClient.disconnect();
     }
-    console.log("Disconnected");
 }
 
-function sendMessage() {
-    stompClient.send("/app/chat", {}, {});
+function send(path, data) {
+    stompClient.send(path, {}, data);
 }

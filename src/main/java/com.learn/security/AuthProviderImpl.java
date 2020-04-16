@@ -32,8 +32,8 @@ public class AuthProviderImpl implements AuthenticationProvider {
         if(!user.getPassword().equals(authentication.getCredentials().toString()))
             throw new BadCredentialsException("Пароли не совпадают");
 
-        user.setActive(true);
-        userRepository.save(user);
+//        user.setActive(true);
+//        userRepository.save(user);
 
         List<GrantedAuthority> authorities = Arrays.asList(Role.values());
         return new UsernamePasswordAuthenticationToken(user, null, authorities);
