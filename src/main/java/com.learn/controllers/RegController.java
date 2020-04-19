@@ -43,12 +43,12 @@ public class RegController {
             return "reg";
         }
 
-        if(multipleAvatar != null) {
-
+        if(multipleAvatar.getSize() != 0) {
+            System.out.println(" () () () " + multipleAvatar.getOriginalFilename() + " : " + multipleAvatar.getSize());
             try {
                 String fileName = UUID.randomUUID() + "." + multipleAvatar.getOriginalFilename();
 
-                multipleAvatar.transferTo(new File(upPath + "/" + fileName));
+                multipleAvatar.transferTo(new File(upPath + "/images/" + fileName));
 
                 user.setAvatarPath(fileName);
             } catch (IOException e) {
@@ -59,7 +59,6 @@ public class RegController {
             user.setAvatarPath("static/img/default.png");
         }
 
-        user.setStatus(true);
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
 

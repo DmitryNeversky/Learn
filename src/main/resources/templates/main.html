@@ -12,9 +12,9 @@
             </div>
             <ul class="user-list">
                 <div th:each="user : ${users}" id="userTable">
-                    <a th:href="${user.id}">
+                    <a th:href="${'/room/' + user.id}">
                         <li class="clearfix">
-                            <img th:src="${user.avatarPath}" alt="avatar" />
+                            <img th:src="${'uploads/images/' + user.avatarPath}" alt="avatar" />
                             <div class="about">
                                 <div class="name" th:text="${user.username}">~name~</div>
                                 <div class="status">
