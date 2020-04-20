@@ -44,13 +44,12 @@ public class RegController {
         }
 
         if(multipleAvatar.getSize() != 0) {
-            System.out.println(" () () () " + multipleAvatar.getOriginalFilename() + " : " + multipleAvatar.getSize());
             try {
-                String fileName = UUID.randomUUID() + "." + multipleAvatar.getOriginalFilename();
+                String fileName = multipleAvatar.getOriginalFilename();
 
-                multipleAvatar.transferTo(new File(upPath + "/images/" + fileName));
+                multipleAvatar.transferTo(new File(upPath + "/avatars/" + fileName));
 
-                user.setAvatarPath(fileName);
+                user.setAvatarPath("/uploads/avatars/" + fileName);
             } catch (IOException e) {
                 model.addAttribute("error", e.getCause());
             }
