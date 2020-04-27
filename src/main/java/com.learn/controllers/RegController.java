@@ -60,6 +60,6 @@ public class RegController {
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
 
-        return "redirect:/main";
+        return "redirect:/";
     }
 }

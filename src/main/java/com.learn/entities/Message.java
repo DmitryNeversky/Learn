@@ -7,7 +7,7 @@ import java.util.List;
 public class Message {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @Lob
@@ -28,6 +28,9 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
+
+    // ...?
+//    private List<Chat> chatList;
 
     public Message() {
 

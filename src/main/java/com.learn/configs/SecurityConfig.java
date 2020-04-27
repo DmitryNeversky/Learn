@@ -33,14 +33,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .formLogin()
                     .loginPage("/login")
-                    .defaultSuccessUrl("/main", true)
+                    .defaultSuccessUrl("/", true)
                 .and()
                     .logout()
                     .addLogoutHandler(customLogoutHandler)
                 .logoutSuccessUrl("/home");
 
         http.sessionManagement()
-                .invalidSessionUrl("/main")
+                .invalidSessionUrl("/**")
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false)
                 .sessionRegistry(sessionRegistry());

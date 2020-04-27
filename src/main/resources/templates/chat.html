@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:insert="/common/page :: head">
-    <title id="pageTitle">Main</title>
+    <title id="pageTitle">Chat</title>
 </head>
 <body onbeforeunload="return disconnect()">
     <div class="container row clearfix">
@@ -12,7 +12,7 @@
             </div>
             <ul class="user-list">
                 <div th:each="user : ${users}" id="userTable">
-                    <a th:href="${'/room/' + user.id}">
+                    <a th:href="${'/room-' + user.id}">
                         <li class="clearfix">
                             <img th:src="${user.avatarPath}" alt="avatar" />
                             <div class="about">
@@ -71,8 +71,6 @@
                     <input type="file" id="partFiles" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple />
                     <button type="submit">Отправить</button>
                 </form>
-
-                <a href="/clear">Удалить</a>
             </div> <!-- end chat-message -->
 
         </div> <!-- end chat -->

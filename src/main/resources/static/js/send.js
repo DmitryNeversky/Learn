@@ -17,8 +17,10 @@ jQuery(document).ready(function($) {
         for(let i = 0; i < files.length; i++)
             formData.append('multipartFiles', files[i]);
 
+        let location = window.location;
+
         $.ajax ({
-            url: "/main",
+            url: location,
             type: "POST",
             data: formData,
             dataType: "html",
@@ -36,7 +38,7 @@ jQuery(document).ready(function($) {
 });
 
 function showMessage() {
-    $(".chat-history").load("main #add");
+    $(".chat-history").load(" #add");
 }
 
 function scrollToBottom() {
@@ -53,13 +55,13 @@ function connect() {
         console.log('Connected: ' + frame);
         send("/app/status", true);
 
-        stompClient.subscribe('/receive/chat', function () {
+        stompClient.subscribe('/topic/chat', function () {
             showMessage();
             scrollToBottom();
         });
 
-        stompClient.subscribe('/receive/status', function () {
-            $(".user-list").load("main #userTable");
+        stompClient.subscribe('/topic/status', function () {
+            $(".user-list").load(" #userTable");
         });
     });
 }

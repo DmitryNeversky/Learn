@@ -18,7 +18,7 @@ public class UserController {
     }
 
     @MessageMapping("/status")
-    @SendTo("/receive/status")
+    @SendTo("/topic/status")
     public boolean setStatus(String status, Principal principal){
         User user = userRepository.findByUsername(principal.getName());
 
@@ -26,6 +26,8 @@ public class UserController {
         else user.setStatus(false);
 
         userRepository.save(user);
+
+        System.out.println("СТАТУС");
 
         return true;
     }
