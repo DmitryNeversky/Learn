@@ -27,8 +27,6 @@ public class UserController {
 
         userRepository.save(user);
 
-        System.out.println("СТАТУС");
-
         return true;
     }
 }

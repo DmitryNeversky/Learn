@@ -4,8 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "usr")
@@ -24,7 +23,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    // ...?
+    // ..?
+    @ManyToMany(mappedBy="users")
+    private Set<Lobby> lobbies = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -106,14 +107,20 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public Set<Lobby> getLobbies() {
+        return lobbies;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", avatarPath='" + avatarPath + '\'' +
                 ", status=" + status +
                 ", roles=" + roles +
+                ", lobbies=" + lobbies +
                 '}';
     }
 }

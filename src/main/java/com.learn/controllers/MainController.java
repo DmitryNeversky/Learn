@@ -1,5 +1,6 @@
 package com.learn.controllers;
 
+import com.learn.entities.Lobby;
 import com.learn.entities.Room;
 import com.learn.entities.Message;
 import com.learn.entities.User;
@@ -42,7 +43,6 @@ public class MainController {
     @MessageMapping("/chat")
     @SendTo("/topic/chat")
     public boolean getMessage(){
-        System.out.println("Получено");
         return true;
     }
 
@@ -57,7 +57,6 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView main(@ModelAttribute Model model) {
-
         ModelAndView modelAndView = new ModelAndView("chat");
         modelAndView.addAllObjects(model.asMap());
 
